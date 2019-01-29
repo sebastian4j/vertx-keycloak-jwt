@@ -1,0 +1,13 @@
+{
+	"puerto": 8080,
+	"callback": "http://localhost:8080",
+	"rol-esperado": "vertx-role",
+	"keycloak": {
+		"realm": "vertx",
+		"realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhDbCF+UoxDWoSh2+2EqKq4XsL5nG49v3iqIKHIR5cSG1h4DT3b3TR5Ogm5Rdi/2VKt16rRaEGrxphyZuaKmP52Q0fgp5pBuq9xWPZDEB1fOTomOtY7S8H5+j2+TLoA2MIrsCBtFA8lZ7Of8CxabwVe8yj3JS0Kat+/w7eX/D22mX77hh6OH8UIEFLazE5OAERbmeZZcYwKPnl7aLfOLTA+r03NZubAiWaNB4FwKeXEF1uOkrSBe3tCpPBBrQkDN/IizaxtTTaoR4KQrF00Jp2Pv2N44BaekDM0tEmALKJvpTQi9T5j51CezwykiTqn11zG1eicDkH7VGGy2qbAmfEQIDAQAB",
+		"auth-server-url": "http://localhost:8282/auth",
+		"ssl-required": "external",
+		"resource": "vertx",
+		"confidential-port": 0
+	}
+}
