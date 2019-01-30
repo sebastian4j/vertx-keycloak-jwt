@@ -76,7 +76,7 @@ al intentar acceder al recurso obtenemos el código de respuesta 401
 
 - Para poder acceder tenemos que solicitar un **token de acceso** a keycloak con el usuario, clave y realm que creamos:
 
-> curl -s --data "grant_type=password&client_id=vertx&username=**usuario**&password=**clave**" http://localhost:8282/auth/realms/**vertx**/protocol/openid-connect/token
+> curl -s --data "grant_type=password&client_id=vertx&username=**usuario**&password=**clave**" http://localhost:8282/auth/realms/vertx/protocol/openid-connect/token
 
 al ejecutarlo correctamente obtenemos un json que contiene la clave **access_token** (entre otras) con el contenido del token que necesitamos.
 
