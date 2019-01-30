@@ -42,6 +42,57 @@
 
 ![Alt text](doc/img/keycloak/13.png?raw=true "role mapping")
 
+- Para obtener la configuración de instalación en formato **OIDC JSON**:
+
+![Alt text](doc/img/keycloak/14.png?raw=true "OIDC JSON")
+
 # Utilizando Vertx
+
+- La **estructura** del proyecto es simple, el objetivo es demostrar como utilizar keycloak:
+
+![Alt text](doc/img/vertx/01.png?raw=true "estructura")
+
+- El archivo **config.json** contiene datos de configuración para acceder a keycloak:
+
+![Alt text](doc/img/vertx/02.png?raw=true "configuración keycloak")
+
+(solo muestro en la imagen los datos relacionados con keycloak)
+
+**real:** el nombre del real creado inicialmente.
+
+**realm-public-key:** contenido de la clave pública.
+
+**auth-server-url:** url de keycloak que autenticará.
+
+**resource**: nombre del cliente que creamos.
+
+utilizar la <a href="https://www.keycloak.org/docs/latest/securing_apps/index.html">documentación de referencia</a> para consultar las definiciones.
+
+- Al ejecutar la aplicación quedará escuchando en el puerto 8080 y la url que probaremos es **http://localhost:8080/resources/secure** utilizando el método **GET**:
+
+![Alt text](doc/img/vertx/03.png?raw=true "401")
+
+al intentar acceder al recurso obtenemos el código de respuesta 401
+
+- Para poder acceder tenemos que solicitar un **token de acceso** a keycloak con el usuario, clave y real que creamos:
+
+> curl -s --data "grant_type=password&client_id=vertx&username=**usuario**&password=**clave**" http://localhost:8282/auth/realms/**vertx**/protocol/openid-connect/token
+
+al ejecutarlo correctamente obtenemos un json que contiene la clave **access_token** (entre otras) con el contenido del token que necesitamos.
+
+- Ahora con el token volvemos a realizar el request al recurso protegido utilizando **token authentication** (agregando el header **Authorization** y el tipo **Bearer** junto al token):
+
+
+![Alt text](doc/img/vertx/04.png?raw=true "Request ok")
+
+(en la imagen no se muestra todo el contenido del token)
+
+# TODO: integrar Consul, Kafka, Docker, ... 
+
+
+
+ 
+ 
+
 
 
