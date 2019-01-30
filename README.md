@@ -1,8 +1,8 @@
 # Vert.x con recursos seguros utilizando Keycloak, Roles y JWT
 
-[Configuración Keycloak](#configuración-keycloak)
+##[Configuración Keycloak](#configuración-keycloak)##
 
-[Utilizando Vert.x](#utilizando-vertx)
+##[Utilizando Vert.x](#utilizando-vertx)##
 
 # Configuración Keycloak
 
