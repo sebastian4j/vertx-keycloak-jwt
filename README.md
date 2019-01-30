@@ -58,7 +58,7 @@
 
 (solo muestro en la imagen los datos relacionados con keycloak)
 
-**real:** el nombre del real creado inicialmente.
+**realm:** el nombre del realm creado inicialmente.
 
 **realm-public-key:** contenido de la clave pública.
 
@@ -74,7 +74,7 @@ utilizar la <a href="https://www.keycloak.org/docs/latest/securing_apps/index.ht
 
 al intentar acceder al recurso obtenemos el código de respuesta 401
 
-- Para poder acceder tenemos que solicitar un **token de acceso** a keycloak con el usuario, clave y real que creamos:
+- Para poder acceder tenemos que solicitar un **token de acceso** a keycloak con el usuario, clave y realm que creamos:
 
 > curl -s --data "grant_type=password&client_id=vertx&username=**usuario**&password=**clave**" http://localhost:8282/auth/realms/**vertx**/protocol/openid-connect/token
 
