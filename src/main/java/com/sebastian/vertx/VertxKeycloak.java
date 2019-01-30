@@ -34,20 +34,17 @@ public class VertxKeycloak {
       oa.setupCallback(router.get("/callback"));
       router.route("/resources/*").handler(oa);
       router.route("/resources/secure").handler(rc -> {
+        final StringBuilder sb = new StringBuilder();
         final User s = rc.user();
         s.isAuthorized(config.getString("rol-esperado"), res -> {
-          if (res.succeeded()) {
-            if (res.result()) {
-              LOGGER.info("autorizado =)");
-            } else {
-              LOGGER.info("NO autorizado =(");
-            }
+          if (res.succeeded() && res.result()) {
+            sb.append("tiene acceso al secreto");
           } else {
-            LOGGER.log(Level.WARNING, "error al autorizar", res.cause());
+            sb.append("no puede acceder al secreto");
           }
         });
         LOGGER.log(Level.INFO, "principal {0}", s.principal());
-        rc.response().end("hola desde el recurso protegido");
+        rc.response().end("hola desde el recurso protegido, " + sb.toString());
       });
       vertx.createHttpServer().requestHandler(router).listen(config.getInteger("puerto"));
     });
