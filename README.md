@@ -52,7 +52,7 @@
 
 ![Alt text](doc/img/vertx/01.png?raw=true "estructura")
 
-- El archivo **config.json** contiene datos de configuración para acceder a keycloak:
+- El archivo **config.json** contiene datos de configuración para acceder a keycloak (este modo de configuración es opcional puede, se puede omitir el ConfigRetriever y crear un JsonObject en el código con la configuracion necesaria del keycloak):
 
 ![Alt text](doc/img/vertx/02.png?raw=true "configuración keycloak")
 
@@ -68,7 +68,7 @@
 
 utilizar la <a href="https://www.keycloak.org/docs/latest/securing_apps/index.html">documentación de referencia</a> para consultar las definiciones.
 
-- Al ejecutar la aplicación quedará escuchando en el puerto 8080 y la url que probaremos es **http://localhost:8080/resources/secure** utilizando el método **GET**:
+- Al ejecutar la aplicación quedará escuchando en el puerto 8080 y la url que probaremos es **http://localhost:8080/resources/secure** utilizando el método **GET** (usando RestMan):
 
 ![Alt text](doc/img/vertx/03.png?raw=true "401")
 
@@ -87,7 +87,16 @@ al ejecutarlo correctamente obtenemos un json que contiene la clave **access_tok
 
 (en la imagen no se muestra todo el contenido del token)
 
-# TODO: integrar Consul, Kafka, Docker, ... 
+- Al intentar acceder a la aplicación (**http://localhost:8080/resources/secure**) directamente desde el navegador veremos la pantalla de keycloak para realizar el login:
+
+![Alt text](doc/img/vertx/05.png?raw=true "login keycloak")
+
+- Luego de ingresar nuestras credenciales podemos acceder al recurso protegido:
+
+![Alt text](doc/img/vertx/06.png?raw=true "acceso al recurso protegido")
+
+
+# TODO: integrar Docker, Kafka, Consul, ... 
 
 
 

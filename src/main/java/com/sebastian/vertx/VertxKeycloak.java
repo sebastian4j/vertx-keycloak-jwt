@@ -36,7 +36,7 @@ public class VertxKeycloak {
       router.route("/resources/secure").handler(rc -> {
         final StringBuilder sb = new StringBuilder();
         final User s = rc.user();
-        s.isAuthorized(config.getString("rol-esperado"), res -> {
+        s.isAuthorized("vertx-role", res -> {
           if (res.succeeded() && res.result()) {
             sb.append("tiene acceso al secreto");
           } else {
