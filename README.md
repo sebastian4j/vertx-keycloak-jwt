@@ -52,7 +52,7 @@
 
 ![Alt text](doc/img/vertx/01.png?raw=true "estructura")
 
-- El archivo **config.json** contiene datos de configuración para acceder a keycloak (este modo de configuración es opcional puede, se puede omitir el ConfigRetriever y crear un JsonObject en el código con la configuracion necesaria del keycloak):
+- El archivo **config.json** contiene datos de configuración para acceder a keycloak (este modo de configuración es opcional, se puede omitir el ConfigRetriever y crear un JsonObject en el código con la configuración necesaria del keycloak):
 
 ![Alt text](doc/img/vertx/02.png?raw=true "configuración keycloak")
 
