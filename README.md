@@ -2,7 +2,7 @@
 
 [Configuración Keycloak](#configuración-keycloak)
 
-[Utilizando Vert.x](#utilizando-vert.x)
+[Utilizando Vert.x](#utilizando-vertx)
 
 # Configuración Keycloak
 
@@ -42,6 +42,6 @@
 
 ![Alt text](doc/img/keycloak/13.png?raw=true "role mapping")
 
-# Utilizando Vert.x
+# Utilizando Vertx
 
 
