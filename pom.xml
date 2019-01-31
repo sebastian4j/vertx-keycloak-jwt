@@ -28,5 +28,10 @@
 			<artifactId>vertx-config</artifactId>
 			<version>${vertx.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-consul-client</artifactId>
+			<version>3.6.2</version>
+		</dependency>
 	</dependencies>
 </project>
