@@ -115,7 +115,7 @@ anteriormente se encontraban dentro del json de configuración.
 
 (usadas en ConsulCliente.java)
 
-- Tests agregados :smirk:
+- Tests agregados (el comienzo) :smirk:
 
 # TODO: integrar Docker, mensajes con Kafka, registro de servicios con Consul, Testing 
 
