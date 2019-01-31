@@ -115,7 +115,7 @@ anteriormente se encontraban dentro del json de configuración.
 
 (usadas en ConsulCliente.java)
 
-# TODO: integrar Docker, Kafka, Consul, ... 
+# TODO: integrar Docker, mensajes con Kafka, registro con Consul, Testing, ... 
 
 
 
