@@ -1,12 +1,10 @@
 package com.sebastian.vertx;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.sebastian.vertx.clientes.ConsulCliente;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
@@ -37,22 +35,6 @@ public class VertxKeycloak {
     router.route("/resources/*").handler(oa);
   }
 
-  private void configurarRouter() {
-    router.route("/resources/secure").handler(rc -> {
-      final StringBuilder sb = new StringBuilder();
-      final User s = rc.user();
-      s.isAuthorized("vertx-role", res -> {
-        if (res.succeeded() && res.result()) {
-          sb.append("tiene acceso al secreto");
-        } else {
-          sb.append("no puede acceder al secreto");
-        }
-      });
-      LOGGER.log(Level.INFO, "principal {0}", s.principal());
-      rc.response().end("hola desde el recurso protegido, " + sb.toString());
-    });
-  }
-
   private void lanzar() {
     vertx = Vertx.vertx();
     ConfigRetriever.create(vertx).getConfig(c -> {
@@ -63,7 +45,7 @@ public class VertxKeycloak {
           pk -> cc.obtenerValor(consulConfig.getString("auth-server-url"), auth -> {
             router = Router.router(vertx);
             agregarAuthHandler(pk, auth);
-            configurarRouter();
+            new VertxRecursos().agregarRecursos(router);
             vertx.createHttpServer().requestHandler(router).listen(config.getInteger("puerto"));
           }));
     });
