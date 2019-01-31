@@ -4,6 +4,8 @@
 
 [Utilizando Vert.x](#utilizando-vertx)
 
+[Consul](#consul)
+
 # Configuración Keycloak
 
 - Ejecutar la imagen docker de **keycloak** utilizando el puerto local 8282 y el usuario y clave **admin**:
@@ -95,6 +97,23 @@ al ejecutarlo correctamente obtenemos un json que contiene la clave **access_tok
 
 ![Alt text](doc/img/vertx/06.png?raw=true "acceso al recurso protegido")
 
+# Consul
+
+- Agregado Consul para uso clave/valor, las claves utilizadas son:
+
+> **keycloak/realm/vertx/public-key:** contenido de la clave publica para el cliente keycloak
+
+> **keycloak/auth/url:** url para autorizar con keycloak
+
+anteriormente se encontraban dentro del json de configuración.
+
+- Para ejecutar el proyecto requiere las siguientes variables de ambiente:
+
+> **consul.host:** host de consul (localhost)
+
+> **consul.port:** puerto de consul (8500)  
+
+(usadas en ConsulCliente.java)
 
 # TODO: integrar Docker, Kafka, Consul, ... 
 
