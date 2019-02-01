@@ -1,5 +1,6 @@
 package com.sebastian.vertx;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import com.sebastian.vertx.clientes.consul.ConsulCliente;
@@ -54,7 +55,7 @@ public class VertxKeycloak {
           pk -> cc.obtenerValor(consulConfig.getString("auth-server-url"),
               auth -> cc.registrarServicio(
                   new RegistroServicioConsul(confServicio.getString("nombre"),
-                      confServicio.getString("id"), confServicio.getJsonArray("tags").stream()
+                      UUID.randomUUID().toString(), confServicio.getJsonArray("tags").stream()
                           .map(f -> (String) f).collect(Collectors.toList()),
                       10, host, puerto),
                   e -> {

@@ -117,6 +117,20 @@ anteriormente se encontraban dentro del json de configuración.
 
 - Tests agregados (el comienzo) :smirk:
 
+- Ejecución de scripts:
+
+> compilar.sh 
+
+> consul/lanzar.sh
+
+> lanzar.sh
+
+> raznal.sh
+  
+> login.sh $usuario $password
+
+raznal.sh y lanzar.sh permiten registrar el servicio 2 veces en Consul
+
 # TODO: integrar Docker, mensajes con Kafka, registro de servicios con Consul, Testing 
 
 

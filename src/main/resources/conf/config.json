@@ -1,7 +1,6 @@
 {
 	"servicio": {
 		"nombre": "servicio_a",
-		"id": "a",
 		"tags": [
 			"servicio",
 			"a",
