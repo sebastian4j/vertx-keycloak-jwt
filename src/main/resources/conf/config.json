@@ -1,5 +1,13 @@
 {
-	"puerto": 8080,
+	"servicio": {
+		"nombre": "servicio_a",
+		"id": "a",
+		"tags": [
+			"servicio",
+			"a",
+			"vertx"
+		]
+	},
 	"callback": "http://localhost:8080",
 	"consul": {
 		"realm-clave-publica": "keycloak/realm/vertx/public-key",

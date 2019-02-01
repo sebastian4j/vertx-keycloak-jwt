@@ -1,7 +1,9 @@
 package com.sebastian.vertx;
 
 import java.util.logging.Logger;
-import com.sebastian.vertx.clientes.ConsulCliente;
+import java.util.stream.Collectors;
+import com.sebastian.vertx.clientes.consul.ConsulCliente;
+import com.sebastian.vertx.clientes.consul.RegistroServicioConsul;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -38,16 +40,30 @@ public class VertxKeycloak {
   private void lanzar() {
     vertx = Vertx.vertx();
     ConfigRetriever.create(vertx).getConfig(c -> {
+      final int puerto = Integer.parseInt(System.getenv("puerto"));
+      LOGGER.info("puerto: " + puerto);
+      final String host = System.getenv("host");
+      LOGGER.info("host: " + host);
       config = c.result();
+      LOGGER.info("config: " + config);
+      final var confServicio = config.getJsonObject("servicio");
+      LOGGER.info("config servicio: " + confServicio);
       final var consulConfig = config.getJsonObject("consul");
       cc = new ConsulCliente(vertx);
       cc.obtenerValor(consulConfig.getString("realm-clave-publica"),
-          pk -> cc.obtenerValor(consulConfig.getString("auth-server-url"), auth -> {
-            router = Router.router(vertx);
-            agregarAuthHandler(pk, auth);
-            new VertxRecursos().agregarRecursos(router);
-            vertx.createHttpServer().requestHandler(router).listen(config.getInteger("puerto"));
-          }));
+          pk -> cc.obtenerValor(consulConfig.getString("auth-server-url"),
+              auth -> cc.registrarServicio(
+                  new RegistroServicioConsul(confServicio.getString("nombre"),
+                      confServicio.getString("id"), confServicio.getJsonArray("tags").stream()
+                          .map(f -> (String) f).collect(Collectors.toList()),
+                      10, host, puerto),
+                  e -> {
+                    router = Router.router(vertx);
+                    agregarAuthHandler(pk, auth);
+                    new VertxRecursos().agregarRecursos(router);
+                    vertx.createHttpServer().requestHandler(router).listen(puerto, host);
+                    LOGGER.info("servicio cargado");
+                  })));
     });
   }
 
