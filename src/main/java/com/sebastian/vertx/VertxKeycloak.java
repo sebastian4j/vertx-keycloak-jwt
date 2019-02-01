@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import com.sebastian.vertx.clientes.consul.ConsulCliente;
 import com.sebastian.vertx.clientes.consul.RegistroServicioConsul;
+import com.sebastian.vertx.utils.ResponseUtils;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -61,11 +62,18 @@ public class VertxKeycloak {
                   e -> {
                     router = Router.router(vertx);
                     agregarAuthHandler(pk, auth);
+                    agregarConsultaServicios();
                     new VertxRecursos().agregarRecursos(router);
                     vertx.createHttpServer().requestHandler(router).listen(puerto, host);
                     LOGGER.info("servicio cargado");
                   })));
     });
+  }
+
+  private void agregarConsultaServicios() {
+    router.route("/servicio/:nombre")
+        .handler(rc -> cc.consultarServicio(rc.request().getParam("nombre"),
+            c -> rc.response().end(ResponseUtils.generarJson(c))));
   }
 
   public static void main(String[] args) {

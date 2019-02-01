@@ -1,5 +1,7 @@
 package com.sebastian.vertx.clientes.consul;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import io.vertx.core.Vertx;
@@ -59,9 +61,30 @@ public class ConsulCliente {
       if (res.succeeded()) {
         callback.accept(opts);
       } else {
-        throw new IllegalStateException("error al reistrar servicio en consul", res.cause());
+        throw new IllegalStateException("error al registrar servicio en consul", res.cause());
       }
     });
   }
 
+  /**
+   * consulta un servicio en consul.
+   *
+   * @param nombreServicio nombre del servicio buscado
+   */
+  public void consultarServicio(final String nombreServicio,
+      Consumer<Set<ConsultaServicioConsul>> consumer) {
+    cliente.catalogServiceNodes(nombreServicio, res -> {
+      if (res.succeeded()) {
+        LOGGER.info("found " + res.result().getList().size() + " services");
+        LOGGER.info("consul state index: " + res.result().getIndex());
+        final var csc = new HashSet<ConsultaServicioConsul>();
+        res.result().getList().stream()
+            .forEach(service -> csc.add(new ConsultaServicioConsul(nombreServicio,
+                service.getNode(), service.getAddress(), service.getPort())));
+        consumer.accept(csc);
+      } else {
+        throw new IllegalStateException("error al obtener servicios desde consul", res.cause());
+      }
+    });
+  }
 }
