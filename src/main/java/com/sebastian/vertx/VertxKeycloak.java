@@ -1,13 +1,12 @@
 package com.sebastian.vertx;
 
-import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import com.sebastian.vertx.clientes.consul.ConsulCliente;
-import com.sebastian.vertx.clientes.consul.RegistroServicioConsul;
-import com.sebastian.vertx.utils.ResponseUtils;
+import com.sebastian.vertx.clientes.redis.RedisCliente;
+import com.sebastian.vertx.clientes.redis.RegistroServicio;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.ext.web.Router;
@@ -25,9 +24,10 @@ import io.vertx.ext.web.handler.OAuth2AuthHandler;
 public class VertxKeycloak {
   private static final Logger LOGGER = Logger.getLogger(VertxKeycloak.class.getCanonicalName());
   private Vertx vertx;
-  private ConsulCliente cc;
+  private RedisCliente cc;
   private JsonObject config;
   private Router router;
+  private String nombreServicio;
 
   private void agregarAuthHandler(final String clavePublica, final String urlAuth) {
     final var oa =
@@ -50,30 +50,55 @@ public class VertxKeycloak {
       LOGGER.info("config: " + config);
       final var confServicio = config.getJsonObject("servicio");
       LOGGER.info("config servicio: " + confServicio);
-      final var consulConfig = config.getJsonObject("consul");
-      cc = new ConsulCliente(vertx);
-      cc.obtenerValor(consulConfig.getString("realm-clave-publica"),
-          pk -> cc.obtenerValor(consulConfig.getString("auth-server-url"),
-              auth -> cc.registrarServicio(
-                  new RegistroServicioConsul(confServicio.getString("nombre"),
-                      UUID.randomUUID().toString(), confServicio.getJsonArray("tags").stream()
+      nombreServicio = System.getenv("nombre");
+      final var redisConfig = config.getJsonObject("redis");
+      LOGGER.info("config: " + redisConfig);
+      cc = new RedisCliente(vertx);
+      cc.obtenerValor(redisConfig.getString("realm-clave-publica"),
+          pk -> cc
+              .obtenerValor(redisConfig.getString("auth-server-url"),
+                  auth -> cc.registrarServicio(new RegistroServicio(nombreServicio,
+                      System.getenv("redis_id"), confServicio.getJsonArray("tags").stream()
                           .map(f -> (String) f).collect(Collectors.toList()),
-                      10, host, puerto),
-                  e -> {
-                    router = Router.router(vertx);
-                    agregarAuthHandler(pk, auth);
-                    agregarConsultaServicios();
-                    new VertxRecursos().agregarRecursos(router);
-                    vertx.createHttpServer().requestHandler(router).listen(puerto, host);
-                    LOGGER.info("servicio cargado");
-                  })));
+                      10, host, puerto), e -> {
+                        router = Router.router(vertx);
+                        agregarAuthHandler(pk, auth);
+                        agregarConsultaServicios();
+                        agregarRoot();
+                        new VertxRecursos().agregarRecursos(router);
+                        vertx.createHttpServer().requestHandler(router).listen(puerto, host);
+                        LOGGER.info("servicio cargado");
+                      })));
     });
+  }
+
+  private void agregarRoot() {
+    router.route("/api/")
+        .handler(rc -> rc.response().end(new JsonObject().put("desde", nombreServicio).toString()));
   }
 
   private void agregarConsultaServicios() {
     router.route("/servicio/:nombre")
-        .handler(rc -> cc.consultarServicio(rc.request().getParam("nombre"),
-            c -> rc.response().end(ResponseUtils.generarJson(c))));
+        .handler(rc -> cc.obtenerServicio(rc.request().getParam("nombre"), c -> {
+          if (c.isPresent()) {
+            final HttpClient client = c.get().getAs(HttpClient.class);
+            client.getNow("/api/", response -> {
+              response.handler(b -> {
+                c.get().release();
+                rc.response().end(b.toString());
+              });
+            });
+
+          }
+          /*
+           * client.getNow("/", response -> { response.handler(b -> {
+           * rc.response().end(b.toString()); }); });
+           */
+          else {
+            rc.response().end("{}");
+          }
+
+        }));
   }
 
   public static void main(String[] args) {

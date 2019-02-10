@@ -1,6 +1,5 @@
 {
 	"servicio": {
-		"nombre": "servicio_a",
 		"tags": [
 			"servicio",
 			"a",
@@ -8,7 +7,7 @@
 		]
 	},
 	"callback": "http://localhost:8080",
-	"consul": {
+	"redis": {
 		"realm-clave-publica": "keycloak/realm/vertx/public-key",
 		"auth-server-url": "keycloak/auth/url"
 	},

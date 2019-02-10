@@ -1,4 +1,4 @@
-package com.sebastian.vertx.clientes.consul;
+package com.sebastian.vertx.clientes.redis;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

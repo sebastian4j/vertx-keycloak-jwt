@@ -4,7 +4,7 @@
 
 [Utilizando Vert.x](#utilizando-vertx)
 
-[Consul](#consul)
+[Redis](#redis)
 
 # Configuración Keycloak
 
@@ -97,9 +97,9 @@ al ejecutarlo correctamente obtenemos un json que contiene la clave **access_tok
 
 ![Alt text](doc/img/vertx/06.png?raw=true "acceso al recurso protegido")
 
-# Consul
+# Redis
 
-- Agregado Consul para uso clave/valor, las claves utilizadas son:
+- Agregado redis para uso clave/valor, las claves utilizadas son:
 
 > **keycloak/realm/vertx/public-key:** contenido de la clave publica para el cliente keycloak
 
@@ -109,11 +109,15 @@ anteriormente se encontraban dentro del json de configuración.
 
 - Para ejecutar el proyecto requiere las siguientes variables de ambiente:
 
-> **consul.host:** host de consul (localhost)
+> **redis_host:** host de redis (localhost)
 
-> **consul.port:** puerto de consul (8500)  
+> **redis_port:** puerto de redis (6379)
 
-(usadas en ConsulCliente.java)
+> **nombre:** nombre del servicio  
+
+> **puerto:** puerto para escuchar con vertx 
+
+> **host:** host que usara vertx 
 
 - Tests agregados (el comienzo) :smirk:
 
@@ -129,9 +133,9 @@ anteriormente se encontraban dentro del json de configuración.
   
 > login.sh $usuario $password
 
-raznal.sh y lanzar.sh permiten registrar el servicio 2 veces en Consul
+raznal.sh y lanzar.sh permiten registrar el servicio 2 veces en redis
 
-# TODO: integrar Docker, mensajes con Kafka, registro de servicios con Consul, Testing 
+# TODO: integrar Docker, mensajes con Kafka, registro de servicios con Redis, Testing 
 
 
 

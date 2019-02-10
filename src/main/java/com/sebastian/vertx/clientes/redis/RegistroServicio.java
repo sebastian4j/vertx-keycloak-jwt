@@ -1,4 +1,4 @@
-package com.sebastian.vertx.clientes.consul;
+package com.sebastian.vertx.clientes.redis;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * datos requeridos para realizar el registro del servicio en consul.
+ * datos requeridos para realizar el registro del servicio.
  *
  * @author Sebastian Avila A.
  *
@@ -14,7 +14,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @ToString
-public class RegistroServicioConsul {
+public class RegistroServicio {
   private final String nombre;
   private final String id;
   private final List<String> tags;

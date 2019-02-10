@@ -36,7 +36,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.vertx</groupId>
-			<artifactId>vertx-consul-client</artifactId>
+			<artifactId>vertx-redis-client</artifactId>
 			<version>${vertx.version}</version>
 		</dependency>
 		<dependency>
@@ -44,6 +44,16 @@
 			<artifactId>lombok</artifactId>
 			<version>edge-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-service-discovery</artifactId>
+			<version>3.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-service-discovery-backend-redis</artifactId>
+			<version>${vertx.version}</version>
 		</dependency>
 		<!-- test -->
 		<dependency>
@@ -112,10 +122,11 @@
 				<version>2.22.1</version>
 				<configuration>
 					<environmentVariables>
-						<consul.host>127.0.0.1</consul.host>
-						<consul.port>8500</consul.port>
+						<redis_host>127.0.0.1</redis_host>
+						<redis_port>8500</redis_port>
 						<puerto>8080</puerto>
 						<host>127.0.0.1</host>
+						<nombre>servicio_a</nombre>
 					</environmentVariables>
 				</configuration>
 			</plugin>
@@ -138,7 +149,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>		
+			</plugin>
 		</plugins>
 	</build>
 </project>
